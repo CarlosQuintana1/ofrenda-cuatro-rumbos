@@ -2,256 +2,558 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Ofrenda de los Cuatro Rumbos</title>
-<meta name="description" content="Altar de muertos en Unity sobre la explanada de la Facultad de Informática de la UAQ. Primer lugar, Altar Alternativo, XIV Concurso de Altares FIF 2026.">
+<meta name="description" content="Una ofrenda de Día de Muertos de siete niveles sobre la explanada de la Facultad de Informática de la UAQ, recreada en Unity. Primer lugar, Altar Alternativo, XIV Concurso de Altares FIF 2026.">
+<meta name="theme-color" content="#0d0912">
 <meta property="og:title" content="Ofrenda de los Cuatro Rumbos">
-<meta property="og:description" content="Recorre en el navegador una ofrenda de siete niveles sobre la explanada de la Facultad de Informática, UAQ.">
+<meta property="og:description" content="Recorre una ofrenda de siete niveles sobre la explanada de la Facultad de Informática, UAQ.">
 <meta property="og:image" content="https://carlosquintana1.github.io/ofrenda-cuatro-rumbos/media/og.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cempasuchil:#F08A1D; --rosa:#E4007C; --morado:#5B2A86; --amarillo:#F6C431;
-  --noche:#140B20; --noche-2:#1E1230; --hueso:#F3E9D2; --tenue:#BFB3CF; --linea:rgba(243,233,210,.12);
+  --fondo:#0d0912; --fondo-2:#15101c; --tinta:#f3ead8; --suave:#a99fb3; --tenue:#6f667a;
+  --cempa:#f08a1d; --rosa:#e4007c; --morado:#8b5cc6; --amarillo:#f6c431; --agua:#4cc3d0;
+  --linea:rgba(243,234,216,.10);
+  --radio:22px;
+  --fin:cubic-bezier(.22,.8,.24,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{background:var(--noche);color:var(--hueso);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-img{display:block;max-width:100%}
-.ancho{max-width:1120px;margin:0 auto;padding:0 24px}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--fondo);color:var(--tinta);font-family:Inter,system-ui,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--cempa);color:#140d06}
+.ancho{width:min(1240px,100% - 48px);margin-inline:auto}
+.titular{font-family:"Bricolage Grotesque",Inter,sans-serif;font-weight:700;letter-spacing:-.035em;line-height:.95}
 
-/* papel picado */
-.picado{height:34px;background:
-  linear-gradient(135deg,transparent 50%,var(--noche) 50%) 0 100%/34px 14px repeat-x,
-  repeating-linear-gradient(90deg,var(--rosa) 0 68px,var(--cempasuchil) 68px 136px,var(--morado) 136px 204px,var(--amarillo) 204px 272px)}
+/* grano muy ligero para que el negro no se vea plano */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:100;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 
-header.portada{position:relative;min-height:88vh;display:flex;align-items:flex-end;overflow:hidden}
-.portada .fondo{position:absolute;inset:0;background:url(media/galeria/noche.jpg) center/cover}
-.portada::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,11,32,.96) 0%,rgba(20,11,32,.75) 40%,rgba(20,11,32,.15) 75%),linear-gradient(0deg,var(--noche) 0%,transparent 35%)}
-.portada .ancho{position:relative;z-index:1;padding-bottom:72px;width:100%}
-.premio{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--amarillo);border:1px solid rgba(246,196,49,.4);border-radius:999px;padding:6px 14px;margin-bottom:22px}
-h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.02;letter-spacing:-.01em}
-h1 span{color:var(--cempasuchil)}
-.bajada{max-width:540px;margin:22px 0 34px;font-size:1.12rem;color:var(--tenue)}
-.botones{display:flex;flex-wrap:wrap;gap:12px}
-.boton{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:.98rem;padding:14px 22px;border-radius:12px;border:1px solid var(--linea);background:rgba(255,255,255,.04);transition:transform .15s,background .15s}
-.boton:hover{transform:translateY(-2px);background:rgba(255,255,255,.09)}
-.boton.principal{background:var(--cempasuchil);border-color:var(--cempasuchil);color:#1B1B1B}
-.boton.principal:hover{background:#ff9a2e}
-.boton[aria-disabled="true"]{opacity:.45;pointer-events:none}
-.boton small{font-weight:500;opacity:.75}
+/* navegación */
+nav{position:fixed;inset:0 0 auto;z-index:50;transition:background .5s var(--fin),backdrop-filter .5s}
+nav.solida{background:rgba(13,9,18,.72);backdrop-filter:blur(18px) saturate(1.4);-webkit-backdrop-filter:blur(18px) saturate(1.4);border-bottom:1px solid var(--linea)}
+nav .ancho{display:flex;align-items:center;justify-content:space-between;height:72px}
+.marca{display:flex;align-items:center;gap:10px;font-family:"Bricolage Grotesque";font-weight:700;letter-spacing:-.02em;font-size:1.05rem}
+.marca i{width:10px;height:10px;border-radius:50%;background:var(--cempa);box-shadow:0 0 18px 4px rgba(240,138,29,.55)}
+nav ul{display:flex;gap:30px;list-style:none;font-size:.95rem;color:var(--suave)}
+nav ul a{transition:color .3s}
+nav ul a:hover{color:var(--tinta)}
+.boton{display:inline-flex;align-items:center;gap:10px;font-weight:500;font-size:.98rem;padding:13px 22px;border-radius:999px;transition:transform .4s var(--fin),background .3s,color .3s}
+.boton:hover{transform:translateY(-2px)}
+.boton.lleno{background:var(--tinta);color:#120c16}
+.boton.lleno:hover{background:#fff}
+.boton.vacio{border:1px solid rgba(243,234,216,.28)}
+.boton.vacio:hover{background:rgba(243,234,216,.08)}
+.boton svg{width:16px;height:16px}
+nav .boton{padding:10px 18px;font-size:.92rem}
 
-section{padding:96px 0}
-.etiqueta{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cempasuchil);margin-bottom:12px}
-h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.1;margin-bottom:18px}
-.intro{max-width:640px;color:var(--tenue);font-size:1.06rem}
+/* portada */
+.portada{position:relative;height:100svh;min-height:620px;overflow:hidden}
+.portada video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);animation:acerca 18s ease-out forwards}
+@keyframes acerca{to{transform:scale(1)}}
+.portada::before{content:"";position:absolute;inset:0;z-index:1;background:
+  radial-gradient(ellipse 70% 60% at 18% 78%,rgba(13,9,18,.62),transparent 70%),
+  linear-gradient(180deg,rgba(13,9,18,.55) 0%,rgba(13,9,18,0) 22%,rgba(13,9,18,0) 45%,rgba(13,9,18,.85) 82%,var(--fondo) 100%)}
+.portada .ancho{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:clamp(48px,9vh,96px)}
+.premio{font-size:.9rem;color:var(--amarillo);margin-bottom:22px;display:flex;align-items:center;gap:12px}
+.premio::before{content:"";width:28px;height:1px;background:currentColor}
+.portada h1{font-size:clamp(3.4rem,10.5vw,9.6rem);max-width:12ch}
+.portada h1 span{color:var(--cempa)}
+.portada .pie{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:28px;margin-top:34px}
+.portada .pie p{max-width:440px;color:var(--suave);font-size:1.06rem}
+.portada .botones{display:flex;gap:12px;flex-wrap:wrap}
 
-.gifs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:40px}
-.gifs figure{border-radius:14px;overflow:hidden;background:var(--noche-2)}
-.gifs figcaption{padding:12px 16px;font-size:.92rem;color:var(--tenue)}
+/* manifiesto: las palabras se encienden con el scroll */
+.manifiesto{padding:clamp(110px,18vh,190px) 0}
+.manifiesto p{font-family:"Bricolage Grotesque";font-weight:500;font-size:clamp(1.9rem,4.4vw,3.9rem);line-height:1.12;letter-spacing:-.03em;max-width:20ch}
+.manifiesto .w{opacity:.16;transition:opacity .45s}
+.manifiesto .w.on{opacity:1}
+.manifiesto .w.c{color:var(--cempa)}
 
-.rumbos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
-.rumbo{padding:26px 22px;border-radius:14px;background:var(--noche-2);border-top:4px solid var(--c)}
-.rumbo b{display:block;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c);margin-bottom:6px}
-.rumbo h3{font-family:Fraunces,Georgia,serif;font-size:1.5rem;margin-bottom:8px}
-.rumbo p{color:var(--tenue);font-size:.95rem}
+/* video */
+.reproductor{position:relative;border-radius:var(--radio);overflow:hidden;aspect-ratio:16/9;background:#000;cursor:pointer}
+.reproductor img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--fin),opacity .6s}
+.reproductor:hover img{transform:scale(1.03)}
+.reproductor video{position:absolute;inset:0;width:100%;height:100%;opacity:0;pointer-events:none;transition:opacity .5s}
+.reproductor.activo video{opacity:1;pointer-events:auto}
+.reproductor.activo img,.reproductor.activo .play{opacity:0;pointer-events:none}
+.play{position:absolute;inset:0;display:grid;place-items:center;transition:opacity .4s}
+.play span{width:96px;height:96px;border-radius:50%;display:grid;place-items:center;background:rgba(243,234,216,.14);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(243,234,216,.3);transition:transform .5s var(--fin),background .3s}
+.reproductor:hover .play span{transform:scale(1.08);background:rgba(243,234,216,.22)}
+.play svg{width:28px;height:28px;margin-left:5px}
+.leyenda{display:flex;justify-content:space-between;gap:20px;margin-top:16px;color:var(--tenue);font-size:.92rem}
 
-.datos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
-.dato{padding:22px;border-radius:14px;border:1px solid var(--linea)}
-.dato strong{display:block;font-family:Fraunces,Georgia,serif;font-size:2.2rem;color:var(--amarillo);line-height:1}
-.dato span{font-size:.92rem;color:var(--tenue)}
+section{position:relative}
+.cabeza{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:56px;flex-wrap:wrap}
+.cabeza h2{font-size:clamp(2.6rem,6vw,5.2rem);max-width:13ch}
+.cabeza p{max-width:400px;color:var(--suave)}
+.bloque{padding:clamp(110px,16vh,170px) 0}
 
-.galeria{columns:3 300px;column-gap:14px;margin-top:40px}
-.galeria img{width:100%;border-radius:12px;margin-bottom:14px;break-inside:avoid}
+/* brújula de los cuatro rumbos */
+.rumbos{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:center}
+.brujula{position:relative;aspect-ratio:1;width:100%;max-width:560px;justify-self:center}
+.brujula .anillo{position:absolute;inset:9%;border-radius:50%;border:1px dashed rgba(243,234,216,.16)}
+.brujula .centro{position:absolute;inset:22%;border-radius:50%;overflow:hidden;box-shadow:0 0 120px 10px var(--brillo,rgba(240,138,29,.28));transition:box-shadow .8s var(--fin)}
+.brujula .centro img{width:100%;height:100%;object-fit:cover;transform:scale(1.25)}
+.punto{position:absolute;width:96px;height:96px;margin:-48px 0 0 -48px;border-radius:50%;display:grid;place-items:center;text-align:center;cursor:pointer;
+  background:var(--fondo-2);border:1px solid var(--linea);transition:transform .6s var(--fin),border-color .4s,background .4s}
+.punto b{display:block;font-family:"Bricolage Grotesque";font-size:1.5rem;line-height:1;color:var(--c)}
+.punto small{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);margin-top:4px}
+.punto.activo{transform:scale(1.12);border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--fondo-2))}
+.punto:nth-of-type(1){left:50%;top:6%}.punto:nth-of-type(2){left:94%;top:50%}.punto:nth-of-type(3){left:50%;top:94%}.punto:nth-of-type(4){left:6%;top:50%}
+.ficha{min-height:260px}
+.ficha .rumbo{font-size:.95rem;color:var(--c,var(--cempa));margin-bottom:10px;transition:color .4s}
+.ficha h3{font-size:clamp(2.6rem,5vw,4.4rem);margin-bottom:18px}
+.ficha p{color:var(--suave);font-size:1.12rem;max-width:34ch}
+.ficha .cambia{transition:opacity .35s,transform .45s var(--fin)}
+.ficha.sale .cambia{opacity:0;transform:translateY(10px)}
+.tira{display:flex;gap:8px;margin-top:34px}
+.tira button{width:34px;height:4px;border-radius:4px;border:0;background:rgba(243,234,216,.16);cursor:pointer;transition:background .4s,width .5s var(--fin)}
+.tira button.activo{width:56px;background:var(--c,var(--cempa))}
 
-.pasos{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
-.paso{padding:26px;border-radius:14px;background:var(--noche-2)}
-.paso h3{font-size:1.06rem;margin-bottom:8px;color:var(--hueso)}
-.paso p{color:var(--tenue);font-size:.96rem}
+/* recorrido con video fijo */
+.recorrido{display:grid;grid-template-columns:1.15fr 1fr;gap:clamp(36px,5vw,80px)}
+.fijo{position:sticky;top:max(96px,calc(50vh - 260px));height:fit-content}
+.fijo .marco{position:relative;border-radius:var(--radio);overflow:hidden;aspect-ratio:4/3;background:#000}
+.fijo video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .7s var(--fin)}
+.fijo video.on{opacity:1}
+.fijo .contador{margin-top:16px;color:var(--tenue);font-size:.9rem;font-variant-numeric:tabular-nums}
+.pasos{display:flex;flex-direction:column}
+.paso{min-height:62vh;display:flex;flex-direction:column;justify-content:center;opacity:.28;transition:opacity .6s}
+.paso.on{opacity:1}
+.paso .n{font-family:"Bricolage Grotesque";color:var(--cempa);font-size:.95rem;margin-bottom:12px}
+.paso h3{font-size:clamp(2rem,3.6vw,3.2rem);margin-bottom:14px}
+.paso p{color:var(--suave);font-size:1.08rem;max-width:36ch}
+.paso video{display:none}
 
-table{width:100%;border-collapse:collapse;margin-top:34px;font-size:.96rem}
-th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--linea)}
-th{color:var(--cempasuchil);font-weight:600;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
-td:first-child{color:var(--hueso);font-weight:500}
-td{color:var(--tenue)}
-kbd{font-family:inherit;font-size:.85rem;padding:2px 8px;border-radius:6px;border:1px solid var(--linea);background:rgba(255,255,255,.05);color:var(--hueso)}
+/* galería horizontal */
+.galeria{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:max(24px,calc((100vw - 1240px)/2));padding:0 max(24px,calc((100vw - 1240px)/2)) 24px;scrollbar-width:none;cursor:grab}
+.galeria::-webkit-scrollbar{display:none}
+.galeria.arrastra{cursor:grabbing;scroll-snap-type:none}
+.galeria figure{flex:0 0 auto;width:min(620px,80vw);scroll-snap-align:start}
+.galeria figure:nth-child(3n+2){width:min(420px,70vw)}
+.galeria .foto{border-radius:var(--radio);overflow:hidden;aspect-ratio:16/10}
+.galeria figure:nth-child(3n+2) .foto{aspect-ratio:4/5}
+.galeria img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--fin);user-select:none;-webkit-user-drag:none}
+.galeria figure:hover img{transform:scale(1.05)}
+.galeria figcaption{margin-top:14px;color:var(--suave);font-size:.95rem}
+.flechas{display:flex;gap:10px}
+.flechas button{width:52px;height:52px;border-radius:50%;border:1px solid rgba(243,234,216,.22);background:none;color:var(--tinta);cursor:pointer;display:grid;place-items:center;transition:background .3s}
+.flechas button:hover{background:rgba(243,234,216,.08)}
+.flechas svg{width:18px;height:18px}
 
-.descargas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
-.descarga{padding:28px;border-radius:14px;background:var(--noche-2);display:flex;flex-direction:column;gap:10px}
-.descarga h3{font-family:Fraunces,Georgia,serif;font-size:1.4rem}
-.descarga p{color:var(--tenue);font-size:.94rem;flex:1}
-.descarga .boton{align-self:flex-start}
+/* cómo se hizo */
+.hecho{display:grid;grid-template-columns:1fr 1fr;gap:clamp(40px,6vw,96px);align-items:start}
+.medidas{position:sticky;top:110px}
+.medidas svg{width:100%;height:auto;overflow:visible}
+.medidas .eti{font:500 13px Inter,sans-serif;fill:var(--suave)}
+.medidas .num{font:700 15px "Bricolage Grotesque",sans-serif;fill:var(--tinta)}
+.medidas circle{fill:none;stroke-width:1.2}
+.medidas .dibuja{stroke-dasharray:var(--l);stroke-dashoffset:var(--l);transition:stroke-dashoffset 2.2s var(--fin)}
+.medidas.on .dibuja{stroke-dashoffset:0}
+.leyenda-m{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;margin-top:28px}
+.leyenda-m li{display:flex;align-items:baseline;gap:10px;color:var(--suave);font-size:.95rem}
+.leyenda-m li::before{content:"";width:10px;height:10px;border-radius:50%;border:2px solid var(--c);flex:0 0 auto;transform:translateY(1px)}
+.leyenda-m b{font-family:"Bricolage Grotesque";color:var(--tinta);font-weight:700;white-space:nowrap}
+.medidas .nota{margin-top:18px;color:var(--tenue);font-size:.9rem}
+.filas{display:flex;flex-direction:column}
+.fila{display:grid;grid-template-columns:72px 1fr;gap:20px;padding:34px 0;border-top:1px solid var(--linea)}
+.fila:last-child{border-bottom:1px solid var(--linea)}
+.fila .n{font-family:"Bricolage Grotesque";font-size:1.05rem;color:var(--cempa);padding-top:6px}
+.fila h3{font-size:1.75rem;letter-spacing:-.025em;margin-bottom:10px}
+.fila p{color:var(--suave)}
 
-footer{padding:56px 0 72px;color:var(--tenue);font-size:.92rem}
-footer .ancho{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
-footer a{color:var(--hueso)}
+/* jugar */
+.jugar h2{font-size:clamp(3.4rem,10vw,8.6rem);margin-bottom:48px}
+.opciones{border-top:1px solid var(--linea)}
+.opcion{display:grid;grid-template-columns:1fr auto;align-items:center;gap:24px;padding:30px 4px;border-bottom:1px solid var(--linea);position:relative;overflow:hidden}
+.opcion::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(240,138,29,.10),transparent 70%);transform:translateX(-100%);transition:transform .7s var(--fin)}
+.opcion:hover::before{transform:none}
+.opcion > *{position:relative}
+.opcion h3{font-family:"Bricolage Grotesque";font-size:clamp(1.7rem,3.4vw,2.6rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.opcion p{color:var(--suave);font-size:.98rem;margin-top:6px;max-width:60ch}
+.opcion .ir{width:56px;height:56px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(243,234,216,.22);transition:background .4s,transform .6s var(--fin),border-color .4s}
+.opcion:hover .ir{background:var(--cempa);border-color:var(--cempa);color:#140d06;transform:rotate(-45deg)}
+.opcion .ir svg{width:20px;height:20px}
+.opcion.pronto{pointer-events:none}
+.opcion.pronto h3::after{content:"muy pronto";font:500 .8rem Inter,sans-serif;color:var(--amarillo);border:1px solid rgba(246,196,49,.35);border-radius:999px;padding:4px 10px;margin-left:14px;vertical-align:middle}
+.opcion.pronto .ir{opacity:.35}
 
-@media (max-width:860px){
-  .rumbos,.datos{grid-template-columns:repeat(2,1fr)}
-  .descargas{grid-template-columns:1fr}
+/* pie con papel picado */
+footer{padding-top:120px;overflow:hidden}
+.picado{display:flex;gap:10px;justify-content:center;padding:0 10px 56px}
+.picado svg{flex:0 0 auto;width:clamp(56px,7vw,92px);height:auto;transform-origin:50% 0;animation:mece 5s ease-in-out infinite}
+.picado svg:nth-child(2n){animation-delay:-1.6s;animation-duration:6s}
+.picado svg:nth-child(3n){animation-delay:-3.1s}
+@keyframes mece{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+.cuerda{height:2px;background:rgba(243,234,216,.22)}
+.creditos{background:var(--fondo-2);padding:64px 0 calc(48px + env(safe-area-inset-bottom))}
+.creditos .ancho{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:40px}
+.creditos h4{font-family:"Bricolage Grotesque";font-size:1.4rem;letter-spacing:-.02em;margin-bottom:10px}
+.creditos p,.creditos li{color:var(--suave);font-size:.95rem}
+.creditos ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.creditos a:hover{color:var(--tinta)}
+.creditos .final{grid-column:1/-1;padding-top:28px;border-top:1px solid var(--linea);color:var(--tenue);font-size:.88rem}
+
+/* aparecer al hacer scroll */
+.sube{opacity:0;transform:translateY(34px);transition:opacity 1s var(--fin),transform 1.1s var(--fin)}
+.sube.on{opacity:1;transform:none}
+.retraso-1{transition-delay:.12s}.retraso-2{transition-delay:.24s}
+
+@media (max-width:900px){
+  nav ul{display:none}
+  .rumbos,.recorrido,.hecho{grid-template-columns:1fr}
+  .fijo{display:none}
+  .paso{min-height:auto;opacity:1;padding:26px 0}
+  .paso video{display:block;width:100%;aspect-ratio:1280/542;object-fit:cover;border-radius:18px;margin-bottom:22px;background:#000}
+  .medidas{position:relative;top:0}
+  .creditos .ancho{grid-template-columns:1fr}
+  .ficha{min-height:0;text-align:center}
+  .ficha p{margin-inline:auto}
+  .tira{justify-content:center}
 }
 @media (max-width:600px){
-  .ancho{padding:0 16px}
-  section{padding:68px 0}
-  .gifs,.pasos{grid-template-columns:1fr}
-  .rumbos,.datos{grid-template-columns:1fr}
-  header.portada{min-height:92vh}
-  .portada::after{background:linear-gradient(0deg,rgba(20,11,32,.98) 30%,rgba(20,11,32,.55) 70%,rgba(20,11,32,.3) 100%)}
-  table{font-size:.88rem}
-  th,td{padding:10px 8px}
+  body{font-size:16px}
+  .ancho{width:calc(100% - 32px)}
+  .galeria{padding:0 16px 20px}
+  .portada .pie{flex-direction:column;align-items:flex-start}
+  .punto{width:72px;height:72px;margin:-36px 0 0 -36px}
+  .punto b{font-size:1.15rem}
+  .punto small{font-size:.62rem}
+  .opcion{padding:24px 0}
+  .opcion .ir{width:46px;height:46px}
+  .opcion.pronto h3::after{display:block;width:fit-content;margin:10px 0 0}
+  .leyenda{flex-direction:column;gap:4px}
+  .leyenda-m{grid-template-columns:1fr}
+  .fila{grid-template-columns:40px 1fr;gap:12px;padding:28px 0}
+  .fila h3{font-size:1.45rem}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .sube{opacity:1;transform:none}
+  .manifiesto .w{opacity:1}
 }
 </style>
 </head>
 <body>
 
-<div class="picado" aria-hidden="true"></div>
+<nav id="nav">
+  <div class="ancho">
+    <a class="marca" href="#"><i></i>Cuatro Rumbos</a>
+    <ul>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#rumbos">La ofrenda</a></li>
+      <li><a href="#recorrido">Recorrido</a></li>
+      <li><a href="#hecho">Cómo se hizo</a></li>
+    </ul>
+    <a class="boton lleno" href="#jugar">Jugar</a>
+  </div>
+</nav>
 
 <header class="portada">
-  <div class="fondo" role="img" aria-label="La ofrenda de noche en la explanada de la Facultad"></div>
+  <video autoplay muted loop playsinline poster="media/bucles/portada.jpg" src="media/bucles/portada.mp4"></video>
   <div class="ancho">
-    <span class="premio">1er lugar, Altar Alternativo, XIV Concurso de Altares FIF 2026</span>
-    <h1>Ofrenda de los<br><span>Cuatro Rumbos</span></h1>
-    <p class="bajada">Una ofrenda de siete niveles en el centro de la explanada de la Facultad de Informática de la UAQ, recreada en Unity. No se mira: se recorre, se arma y se le deja un nombre.</p>
-    <div class="botones">
-      <a class="boton principal" id="b-jugar" href="jugar/">Jugar en el navegador</a>
-      <a class="boton" href="#descargas">Descargar para Windows o Mac</a>
-      <a class="boton" href="ar/">Verla en realidad aumentada</a>
+    <p class="premio sube">Primer lugar, Altar Alternativo, XIV Concurso de Altares FIF 2026</p>
+    <h1 class="titular sube retraso-1">Ofrenda de los <span>Cuatro Rumbos</span></h1>
+    <div class="pie sube retraso-2">
+      <p>Un altar de muertos de siete niveles en el centro de la explanada de la Facultad de Informática de la UAQ, recreada en Unity.</p>
+      <div class="botones">
+        <a class="boton lleno" href="#jugar">Juégala
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="boton vacio" href="#video">Ver el recorrido</a>
+      </div>
     </div>
   </div>
 </header>
 
-<section id="video" style="padding-bottom:0">
+<section class="manifiesto">
   <div class="ancho">
-    <p class="etiqueta">Video</p>
-    <h2>El recorrido guiado completo</h2>
-    <video controls preload="metadata" playsinline poster="media/galeria/noche.jpg" src="media/recorrido.mp4" style="width:100%;border-radius:14px;margin-top:28px;background:#000"></video>
+    <p id="manifiesto">No es una ofrenda para mirar. Se *recorre,* se *arma* con cuatro rituales y al final se le *deja* *un* *nombre.*</p>
   </div>
 </section>
 
-<section id="recorrido">
-  <div class="ancho">
-    <p class="etiqueta">El recorrido</p>
-    <h2>Una plaza que se llena de ánimas</h2>
-    <p class="intro">Llegas por un camino de aserrín bajo papel picado, cruzas la explanada de la Facultad y llegas al medallón central, donde está la ofrenda. Con cada ritual el cielo se oscurece, hasta que cae la noche y llegan las ánimas.</p>
-    <div class="gifs">
-      <figure><img src="media/llegada.gif" alt="Llegada por el camino de aserrín" loading="lazy"><figcaption>Bienvenidas, ánimas: el camino de aserrín y veladoras</figcaption></figure>
-      <figure><img src="media/facultad.gif" alt="La explanada de la Facultad" loading="lazy"><figcaption>La explanada de la Facultad, recreada a escala</figcaption></figure>
-      <figure><img src="media/ofrenda.gif" alt="La ofrenda de siete niveles" loading="lazy"><figcaption>La ofrenda de siete niveles en el medallón central</figcaption></figure>
-      <figure><img src="media/danzantes.gif" alt="Danzantes" loading="lazy"><figcaption>Danzantes alrededor del huéhuetl y el copal</figcaption></figure>
+<section id="video">
+  <div class="ancho sube">
+    <div class="reproductor" id="reproductor">
+      <img src="media/bucles/noche.jpg" alt="La ofrenda de noche" loading="lazy">
+      <div class="play"><span><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15l13-7.5z"/></svg></span></div>
+      <video preload="none" controls playsinline src="media/recorrido.mp4"></video>
     </div>
+    <div class="leyenda"><span>Recorrido guiado, 1:31</span><a href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Video.mp4">Descargar en 1080p</a></div>
   </div>
 </section>
 
-<section id="ofrenda" style="background:var(--noche-2)">
+<section class="bloque" id="rumbos">
   <div class="ancho">
-    <p class="etiqueta">La ofrenda</p>
-    <h2>Cuatro caras, cuatro rituales</h2>
-    <p class="intro">Cada cara de la pirámide mira a un rumbo y guarda un elemento. Al pie de cada una hay un pedestal que activa su ritual. Con los cuatro, la ofrenda queda completa.</p>
+    <div class="cabeza sube">
+      <h2 class="titular">Cuatro caras, cuatro rituales</h2>
+      <p>Cada cara de la pirámide mira a un rumbo y guarda un elemento. Al activar los cuatro, el cielo se oscurece y llegan las ánimas por el camino de cempasúchil.</p>
+    </div>
     <div class="rumbos">
-      <div class="rumbo" style="--c:var(--cempasuchil);background:var(--noche)"><b>Norte</b><h3>Fuego</h3><p>Se encienden las veladoras de los siete niveles y el copal.</p></div>
-      <div class="rumbo" style="--c:#3FB8C9;background:var(--noche)"><b>Oriente</b><h3>Agua</h3><p>Se sirven los vasos para que las ánimas calmen su sed.</p></div>
-      <div class="rumbo" style="--c:var(--amarillo);background:var(--noche)"><b>Poniente</b><h3>Tierra</h3><p>Aparecen el pan de muerto, la fruta, el mole y los tamales.</p></div>
-      <div class="rumbo" style="--c:var(--rosa);background:var(--noche)"><b>Sur</b><h3>Viento</h3><p>El papel picado se despliega sobre toda la explanada.</p></div>
-    </div>
-    <div class="datos">
-      <div class="dato"><strong>7</strong><span>niveles, con mantel de color por nivel</span></div>
-      <div class="dato"><strong>26</strong><span>retratos, con Juan Gabriel en lo más alto</span></div>
-      <div class="dato"><strong>4</strong><span>rituales que oscurecen el cielo paso a paso</span></div>
-      <div class="dato"><strong>FIF</strong><span>cortado en binario en cada papel picado</span></div>
-    </div>
-  </div>
-</section>
-
-<section id="galeria">
-  <div class="ancho">
-    <p class="etiqueta">Galería</p>
-    <h2>De la tarde a la noche</h2>
-    <div class="galeria">
-      <img src="media/galeria/atardecer.jpg" alt="La ofrenda al atardecer" loading="lazy">
-      <img src="media/galeria/juan-gabriel.jpg" alt="Juan Gabriel en lo más alto" loading="lazy">
-      <img src="media/galeria/rituales.jpg" alt="Veladoras encendidas" loading="lazy">
-      <img src="media/galeria/explanada.jpg" alt="Vista aérea de la explanada" loading="lazy">
-      <img src="media/galeria/catrines.jpg" alt="La Catrina y El Catrín" loading="lazy">
-      <img src="media/galeria/mariachi.jpg" alt="Mariachi de catrines" loading="lazy">
-      <img src="media/galeria/xoloitzcuintle.jpg" alt="Xoloitzcuintle" loading="lazy">
-      <img src="media/galeria/tapete.jpg" alt="Tapete de aserrín" loading="lazy">
-      <img src="media/galeria/campo-cempasuchil.jpg" alt="Campo de cempasúchil en forma de calavera" loading="lazy">
-      <img src="media/galeria/danzantes.jpg" alt="Danzantes" loading="lazy">
-      <img src="media/galeria/catrin-troyano.jpg" alt="Catrín troyano" loading="lazy">
-      <img src="media/galeria/noche.jpg" alt="La ofrenda de noche" loading="lazy">
+      <div class="brujula sube" id="brujula">
+        <div class="anillo"></div>
+        <div class="centro"><img src="media/galeria/juan-gabriel.jpg" alt="La ofrenda vista de frente" loading="lazy"></div>
+        <button class="punto" data-i="0" style="--c:var(--cempa)"><span><b>N</b><small>Fuego</small></span></button>
+        <button class="punto" data-i="1" style="--c:var(--agua)"><span><b>E</b><small>Agua</small></span></button>
+        <button class="punto" data-i="2" style="--c:var(--rosa)"><span><b>S</b><small>Viento</small></span></button>
+        <button class="punto" data-i="3" style="--c:var(--amarillo)"><span><b>O</b><small>Tierra</small></span></button>
+      </div>
+      <div class="ficha sube retraso-1" id="ficha">
+        <p class="rumbo cambia" id="f-rumbo"></p>
+        <h3 class="titular cambia" id="f-titulo"></h3>
+        <p class="cambia" id="f-texto"></p>
+        <div class="tira" id="tira"><button aria-label="Norte"></button><button aria-label="Oriente"></button><button aria-label="Sur"></button><button aria-label="Poniente"></button></div>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="como" style="background:var(--noche-2)">
+<section class="bloque" id="recorrido" style="padding-top:0">
   <div class="ancho">
-    <p class="etiqueta">Cómo se hizo</p>
-    <h2>La Facultad, medida y generada por código</h2>
-    <div class="pasos">
-      <div class="paso" style="background:var(--noche)"><h3>Fotos y Google Maps</h3><p>Tomé fotos de la explanada, los edificios, las gradas y las jardineras, y saqué las medidas de la vista aérea de Google Maps con su barra de escala. La primera versión salió 1.6 veces más grande; la corregí empalmando la vista desde arriba de Unity sobre la foto satelital.</p></div>
-      <div class="paso" style="background:var(--noche)"><h3>Una escena hecha con C#</h3><p>Edificios, pirámide, comida, flores, papel picado y personajes son geometría que generan scripts de C#. Cualquier medida se corrige y la escena se vuelve a generar en segundos.</p></div>
-      <div class="paso" style="background:var(--noche)"><h3>Cada elemento con su fuente</h3><p>Al señalar cualquier elemento aparece su significado en la tradición y de dónde sale: INPI, Profeco, UNESCO y otras. Lo que es interpretación popular está marcado como tal.</p></div>
-      <div class="paso" style="background:var(--noche)"><h3>Artesanía como estilo</h3><p>Colores planos y una paleta cerrada de seis colores. Las figuras sencillas se leen como cartonería, que también es tradición, y la decoración deja que manden la comida, las velas y los retratos.</p></div>
+    <div class="cabeza sube">
+      <h2 class="titular">Una plaza que se llena de ánimas</h2>
+      <p>La explanada de la Facultad, medida y recreada a escala, se llena de tradición alrededor de la ofrenda.</p>
+    </div>
+    <div class="recorrido">
+      <div class="fijo">
+        <div class="marco" id="marco">
+          <video muted loop playsinline preload="none" poster="media/bucles/llegada.jpg" data-src="media/bucles/llegada.mp4"></video>
+          <video muted loop playsinline preload="none" poster="media/bucles/facultad.jpg" data-src="media/bucles/facultad.mp4"></video>
+          <video muted loop playsinline preload="none" poster="media/bucles/noche.jpg" data-src="media/bucles/noche.mp4"></video>
+          <video muted loop playsinline preload="none" poster="media/bucles/mariachi.jpg" data-src="media/bucles/mariachi.mp4"></video>
+          <video muted loop playsinline preload="none" poster="media/bucles/danzantes.jpg" data-src="media/bucles/danzantes.mp4"></video>
+          <video muted loop playsinline preload="none" poster="media/bucles/troyano.jpg" data-src="media/bucles/troyano.mp4"></video>
+        </div>
+        <p class="contador" id="contador">01 de 06</p>
+      </div>
+      <div class="pasos">
+        <article class="paso"><video muted loop playsinline preload="none" poster="media/bucles/llegada.jpg" data-src="media/bucles/llegada.mp4"></video><p class="n">01</p><h3 class="titular">Bienvenidas, ánimas</h3><p>Un arco de cempasúchil abre el camino de aserrín, bordeado de veladoras y bajo papel picado.</p></article>
+        <article class="paso"><video muted loop playsinline preload="none" poster="media/bucles/facultad.jpg" data-src="media/bucles/facultad.mp4"></video><p class="n">02</p><h3 class="titular">La Facultad, a escala</h3><p>El edificio curvo, las gradas, las jardineras y el medallón central, medidos sobre la vista aérea de la explanada.</p></article>
+        <article class="paso"><video muted loop playsinline preload="none" poster="media/bucles/noche.jpg" data-src="media/bucles/noche.mp4"></video><p class="n">03</p><h3 class="titular">Cae la noche</h3><p>Cada ritual oscurece el cielo un paso. Con el cuarto, las veladoras alumbran el camino de las ánimas.</p></article>
+        <article class="paso"><video muted loop playsinline preload="none" poster="media/bucles/mariachi.jpg" data-src="media/bucles/mariachi.mp4"></video><p class="n">04</p><h3 class="titular">Mariachi de catrines</h3><p>Guitarrón, vihuela, violín y trompeta tocan para las ánimas frente a la bandera de los Troyanos.</p></article>
+        <article class="paso"><video muted loop playsinline preload="none" poster="media/bucles/danzantes.jpg" data-src="media/bucles/danzantes.mp4"></video><p class="n">05</p><h3 class="titular">Danzantes</h3><p>Con penacho, sonajas y cascabeles, bailan en círculo alrededor del huéhuetl y el copal.</p></article>
+        <article class="paso"><video muted loop playsinline preload="none" poster="media/bucles/troyano.jpg" data-src="media/bucles/troyano.mp4"></video><p class="n">06</p><h3 class="titular">Siempre con nosotros</h3><p>Desde el techo del edificio curvo, un catrín troyano recuerda a los troyanos de la Facultad.</p></article>
+      </div>
     </div>
   </div>
 </section>
 
-<section id="controles">
+<section class="bloque" id="galeria" style="padding-top:0">
   <div class="ancho">
-    <p class="etiqueta">Controles</p>
-    <h2>Teclado, ratón o mando</h2>
-    <table>
-      <thead><tr><th>Acción</th><th>Teclado y ratón</th><th>Mando</th></tr></thead>
-      <tbody>
-        <tr><td>Caminar</td><td><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></td><td>Stick izquierdo</td></tr>
-        <tr><td>Correr</td><td><kbd>Shift</kbd></td><td>LT o clic del stick</td></tr>
-        <tr><td>Mirar</td><td>Ratón</td><td>Stick derecho</td></tr>
-        <tr><td>Interactuar</td><td><kbd>E</kbd> o clic</td><td>A</td></tr>
-        <tr><td>Atardecer, noche y día</td><td><kbd>N</kbd></td><td>Y</td></tr>
-        <tr><td>Recorrido guiado</td><td></td><td>X, y B para salir</td></tr>
-        <tr><td>Reiniciar</td><td><kbd>R</kbd></td><td>Start</td></tr>
-        <tr><td>Soltar el cursor</td><td><kbd>Esc</kbd></td><td></td></tr>
-      </tbody>
-    </table>
+    <div class="cabeza sube">
+      <h2 class="titular">De la tarde a la noche</h2>
+      <div class="flechas"><button id="atras" aria-label="Anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button id="adelante" aria-label="Siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    </div>
+  </div>
+  <div class="galeria sube" id="galeria">
+    <figure><div class="foto"><img src="media/galeria/atardecer.jpg" alt="" loading="lazy"></div><figcaption>La ofrenda al atardecer, antes de los rituales</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/juan-gabriel.jpg" alt="" loading="lazy"></div><figcaption>Juan Gabriel, en lo más alto</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/rituales.jpg" alt="" loading="lazy"></div><figcaption>El ritual del fuego enciende los siete niveles</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/explanada.jpg" alt="" loading="lazy"></div><figcaption>La explanada vista desde arriba</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/xoloitzcuintle.jpg" alt="" loading="lazy"></div><figcaption>El xoloitzcuintle, con collar de cempasúchil</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/catrines.jpg" alt="" loading="lazy"></div><figcaption>La Catrina y El Catrín reciben a quien llega</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/tapete.jpg" alt="" loading="lazy"></div><figcaption>Tapetes de aserrín que se encienden de noche</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/campo-cempasuchil.jpg" alt="" loading="lazy"></div><figcaption>Cempasúchil sembrado en forma de calavera</figcaption></figure>
+    <figure><div class="foto"><img src="media/galeria/noche.jpg" alt="" loading="lazy"></div><figcaption>La ofrenda completa, de noche</figcaption></figure>
   </div>
 </section>
 
-<section id="descargas" style="background:var(--noche-2)">
+<section class="bloque" id="hecho" style="padding-top:0">
   <div class="ancho">
-    <p class="etiqueta">Descargas</p>
-    <h2>Juégala donde quieras</h2>
-    <div class="descargas">
-      <div class="descarga" style="background:var(--noche)"><h3>Windows</h3><p>Descomprime el zip y abre <b>Ofrenda de los Cuatro Rumbos.exe</b>. Si aparece "Windows protegió su PC", elige Más información y Ejecutar de todas formas.</p><a class="boton principal" data-archivo="OfrendaCuatroRumbos-Windows.zip" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Windows.zip">Descargar <small>.zip</small></a></div>
-      <div class="descarga" style="background:var(--noche)"><h3>Mac</h3><p>Descomprime el zip y la primera vez abre la app con clic derecho y Abrir, porque no está firmada por Apple.</p><a class="boton principal" data-archivo="OfrendaCuatroRumbos-Mac.zip" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Mac.zip">Descargar <small>.zip</small></a></div>
-      <div class="descarga" style="background:var(--noche)"><h3>Proyecto de Unity</h3><p>El código completo, abierto bajo licencia MIT. Se abre con Unity 6000.5.6f1 y trae el menú para generar cada versión.</p><a class="boton" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos">Ver en GitHub</a></div>
+    <div class="cabeza sube">
+      <h2 class="titular">Medida, generada y justificada</h2>
+      <p>Toda la escena sale de código en C#, a partir de fotos de la explanada y de la vista aérea de Google Maps.</p>
+    </div>
+    <div class="hecho">
+      <div class="medidas" id="medidas">
+        <svg viewBox="0 0 520 520" aria-label="Medidas de la explanada">
+          <g transform="translate(260 260)">
+            <circle class="dibuja" r="235" stroke="rgba(243,234,216,.28)" style="--l:1477"/>
+            <circle class="dibuja" r="186" stroke="rgba(139,92,198,.75)" style="--l:1169"/>
+            <circle class="dibuja" r="131" stroke="rgba(139,92,198,.75)" style="--l:823"/>
+            <circle class="dibuja" r="111" stroke="rgba(76,195,208,.7)" style="--l:697"/>
+            <circle class="dibuja" r="84" stroke="rgba(76,195,208,.7)" style="--l:528"/>
+            <circle r="27" fill="rgba(240,138,29,.2)" stroke="#f08a1d"/>
+            <circle r="4" fill="#f08a1d" stroke="none"/>
+          </g>
+        </svg>
+        <ul class="leyenda-m">
+          <li style="--c:#f08a1d"><b>2.2 m</b> medallón central</li>
+          <li style="--c:rgba(76,195,208,.9)"><b>6.8 a 9 m</b> isletas de pasto</li>
+          <li style="--c:rgba(139,92,198,.95)"><b>10.6 a 15 m</b> gradas</li>
+          <li style="--c:rgba(243,234,216,.5)"><b>19 m</b> explanada</li>
+        </ul>
+        <p class="nota">Radios medidos sobre la vista aérea con su barra de escala de 20 m, dibujados a la misma escala.</p>
+      </div>
+      <div class="filas">
+        <div class="fila sube"><span class="n">01</span><div><h3>Fotos y Google Maps</h3><p>Tomé fotos de la explanada, los edificios, las gradas, el letrero y las jardineras, y saqué las medidas de la vista aérea usando su barra de escala.</p></div></div>
+        <div class="fila sube"><span class="n">02</span><div><h3>Corregir a escala</h3><p>La primera versión salió 1.6 veces más grande porque calculé a ojo. La corregí empalmando la vista desde arriba de Unity sobre la foto satelital hasta que coincidieron.</p></div></div>
+        <div class="fila sube"><span class="n">03</span><div><h3>Una escena hecha con código</h3><p>Edificios, pirámide, comida, flores, papel picado y personajes son geometría generada en C#. Cualquier medida se corrige y la escena se vuelve a generar en segundos.</p></div></div>
+        <div class="fila sube"><span class="n">04</span><div><h3>Cada elemento con su fuente</h3><p>Al señalar cualquier elemento aparece su significado en la tradición y de dónde sale: INPI, Profeco, UNESCO y otras. El papel picado lleva FIF y UAQ cortados en binario.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bloque jugar" id="jugar" style="padding-top:0">
+  <div class="ancho">
+    <h2 class="titular sube">Juégala</h2>
+    <div class="opciones">
+      <a class="opcion sube" id="o-web" href="jugar/"><div><h3>En el navegador</h3><p>Sin instalar nada. Mejor en Chrome o Edge, en computadora, con teclado y ratón.</p></div><span class="ir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="opcion sube" data-archivo="OfrendaCuatroRumbos-Windows.zip" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Windows.zip"><div><h3>Windows</h3><p>Descomprime y abre el .exe. Si aparece "Windows protegió su PC", elige Más información y Ejecutar de todas formas.</p></div><span class="ir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></a>
+      <a class="opcion sube" data-archivo="OfrendaCuatroRumbos-Mac.zip" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Mac.zip"><div><h3>Mac</h3><p>Descomprime y la primera vez abre la app con clic derecho y Abrir, porque no está firmada por Apple.</p></div><span class="ir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v12M6 11l6 6 6-6M5 20h14"/></svg></span></a>
+      <a class="opcion sube" href="ar/"><div><h3>En tu mesa, con el celular</h3><p>Realidad aumentada: la ofrenda aparece sobre cualquier superficie con la cámara del celular.</p></div><span class="ir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      <a class="opcion sube" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos"><div><h3>El proyecto de Unity</h3><p>El código completo en GitHub, bajo licencia MIT. Se abre con Unity 6000.5.6f1.</p></div><span class="ir"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg></span></a>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="ancho">
-    <span>Carlos Quintana, con el equipo Puro BoxCollider. Facultad de Informática, UAQ, 2026.</span>
-    <span><a href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/blob/main/FUENTES.md">Fuentes y créditos</a></span>
+  <div class="cuerda"></div>
+  <div class="picado" id="picado" aria-hidden="true"></div>
+  <div class="creditos">
+    <div class="ancho">
+      <div><h4>Ofrenda de los Cuatro Rumbos</h4><p>Hecha por Carlos Quintana con el equipo Puro BoxCollider, para el XIV Concurso de Altares y Ofrendas de la Facultad de Informática, Universidad Autónoma de Querétaro.</p></div>
+      <ul><li><a href="#video">Video</a></li><li><a href="#rumbos">La ofrenda</a></li><li><a href="#recorrido">Recorrido</a></li><li><a href="#jugar">Jugar</a></li></ul>
+      <ul><li><a href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos">Código en GitHub</a></li><li><a href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/blob/main/FUENTES.md">Fuentes y créditos</a></li><li><a href="ar/">Realidad aumentada</a></li></ul>
+      <p class="final">2026. Código bajo licencia MIT. Las fotos de los retratos conservan la licencia de sus autores.</p>
+    </div>
   </div>
 </footer>
 
-<div class="picado" aria-hidden="true"></div>
-
 <script>
-// Las descargas se activan solas cuando el archivo ya está publicado en el último release.
+const menosMovimiento = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// los bucles van un poco más lentos para que se sientan tranquilos
+document.querySelectorAll("video[loop]").forEach(v => { v.defaultPlaybackRate = .8; v.playbackRate = .8; });
+
+// navegación sólida al bajar
+const nav = document.getElementById("nav");
+addEventListener("scroll", () => nav.classList.toggle("solida", scrollY > 40), { passive: true });
+
+// aparecer al entrar en pantalla
+const vista = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("on"); vista.unobserve(e.target); } }), { threshold: .15 });
+document.querySelectorAll(".sube").forEach(el => vista.observe(el));
+
+// manifiesto: cada palabra se enciende conforme avanza el scroll; *palabra* va en color
+const man = document.getElementById("manifiesto");
+man.innerHTML = man.textContent.split(" ").map(w => {
+  const c = w.includes("*"); return `<span class="w${c ? " c" : ""}">${w.replaceAll("*", "")}</span>`;
+}).join(" ");
+const palabras = [...man.querySelectorAll(".w")];
+function enciende() {
+  const r = man.getBoundingClientRect(), h = innerHeight;
+  const p = Math.min(1, Math.max(0, (h * .82 - r.top) / (r.height + h * .35)));
+  const n = Math.round(p * palabras.length);
+  palabras.forEach((w, i) => w.classList.toggle("on", i < n));
+}
+if (!menosMovimiento) { addEventListener("scroll", enciende, { passive: true }); enciende(); }
+
+// reproductor del video completo
+const rep = document.getElementById("reproductor"), vid = rep.querySelector("video");
+rep.addEventListener("click", () => { if (rep.classList.contains("activo")) return; rep.classList.add("activo"); vid.play(); });
+
+// brújula de rumbos
+const rumbos = [
+  { r: "Norte", c: "var(--cempa)", t: "Fuego", p: "Se encienden las veladoras de los siete niveles y el copal. La luz guía a las ánimas a su antiguo hogar.", b: "rgba(240,138,29,.35)" },
+  { r: "Oriente", c: "var(--agua)", t: "Agua", p: "Se sirven los vasos para que las ánimas calmen su sed después del largo camino.", b: "rgba(76,195,208,.3)" },
+  { r: "Sur", c: "var(--rosa)", t: "Viento", p: "El papel picado, que representa al aire, se despliega sobre toda la explanada.", b: "rgba(228,0,124,.3)" },
+  { r: "Poniente", c: "var(--amarillo)", t: "Tierra", p: "Aparecen el pan de muerto, la fruta, el mole y los tamales para deleitar al ánima.", b: "rgba(246,196,49,.3)" }
+];
+const puntos = [...document.querySelectorAll(".punto")], barras = [...document.querySelectorAll("#tira button")];
+const ficha = document.getElementById("ficha"), centro = document.querySelector(".brujula .centro");
+let actual = -1, ciclo;
+function rumbo(i) {
+  if (i === actual) return;
+  const primero = actual === -1; actual = i; const d = rumbos[i];
+  ficha.classList.add("sale");
+  clearTimeout(rumbo.t);
+  rumbo.t = setTimeout(() => {
+    const a = rumbos[actual];
+    document.getElementById("f-rumbo").textContent = a.r;
+    document.getElementById("f-titulo").textContent = a.t;
+    document.getElementById("f-texto").textContent = a.p;
+    ficha.style.setProperty("--c", a.c); ficha.classList.remove("sale");
+  }, primero ? 0 : 260);
+  centro.style.setProperty("--brillo", d.b);
+  puntos.forEach((p, j) => p.classList.toggle("activo", j === i));
+  barras.forEach((b, j) => b.classList.toggle("activo", j === i));
+  document.getElementById("tira").style.setProperty("--c", d.c);
+}
+function avanza() { clearInterval(ciclo); if (!menosMovimiento) ciclo = setInterval(() => rumbo((actual + 1) % 4), 4200); }
+[...puntos, ...barras].forEach((el, k) => el.addEventListener("click", () => { rumbo(k % 4); avanza(); }));
+rumbo(0); avanza();
+
+// videos en bucle: solo cargan y corren cuando están en pantalla
+function carga(v) { if (v.dataset.src && !v.src) v.src = v.dataset.src; }
+const visibles = new IntersectionObserver(es => es.forEach(e => {
+  const v = e.target;
+  if (e.isIntersecting && !menosMovimiento) { carga(v); v.play().catch(() => {}); } else v.pause();
+}), { threshold: .25 });
+document.querySelectorAll(".paso video").forEach(v => visibles.observe(v));
+
+// recorrido: el video fijo cambia según el paso que está al centro
+const pasos = [...document.querySelectorAll(".paso")], fijos = [...document.querySelectorAll("#marco video")];
+const contador = document.getElementById("contador");
+let enPantalla = false;
+function muestra(i) {
+  pasos.forEach((p, j) => p.classList.toggle("on", j === i));
+  fijos.forEach((v, j) => {
+    if (j === i) { carga(v); v.classList.add("on"); if (enPantalla && !menosMovimiento) v.play().catch(() => {}); }
+    else { v.classList.remove("on"); v.pause(); }
+  });
+  if (fijos[i + 1]) carga(fijos[i + 1]);
+  contador.textContent = String(i + 1).padStart(2, "0") + " de 06";
+}
+const centroPaso = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) muestra(pasos.indexOf(e.target)); }), { rootMargin: "-45% 0px -45% 0px" });
+pasos.forEach(p => centroPaso.observe(p));
+new IntersectionObserver(es => es.forEach(e => {
+  enPantalla = e.isIntersecting;
+  const v = fijos.find(x => x.classList.contains("on"));
+  if (v) enPantalla && !menosMovimiento ? v.play().catch(() => {}) : v.pause();
+})).observe(document.getElementById("marco"));
+muestra(0);
+
+// galería: arrastrar con el ratón y flechas
+const gal = document.getElementById("galeria");
+let x0 = 0, s0 = 0, arrastrando = false;
+gal.addEventListener("pointerdown", e => { if (e.pointerType !== "mouse") return; arrastrando = true; x0 = e.clientX; s0 = gal.scrollLeft; gal.classList.add("arrastra"); });
+addEventListener("pointermove", e => { if (arrastrando) gal.scrollLeft = s0 - (e.clientX - x0); });
+addEventListener("pointerup", () => { arrastrando = false; gal.classList.remove("arrastra"); });
+const paso = () => gal.querySelector("figure").offsetWidth + 18;
+document.getElementById("adelante").onclick = () => gal.scrollBy({ left: paso(), behavior: "smooth" });
+document.getElementById("atras").onclick = () => gal.scrollBy({ left: -paso(), behavior: "smooth" });
+
+// medidas: los anillos se dibujan al entrar
+new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) e.target.classList.add("on"); }), { threshold: .3 }).observe(document.getElementById("medidas"));
+
+// papel picado del pie, con calaveras, flores y rombos recortados
+const colores = ["#e4007c", "#f08a1d", "#8b5cc6", "#f6c431", "#4cc3d0"];
+const cortes = [
+  '<circle cx="50" cy="52" r="15"/><circle cx="44" cy="50" r="4" fill="#fff"/><circle cx="56" cy="50" r="4" fill="#fff"/>',
+  '<path d="M50 34l5 12 13 1-10 8 4 13-12-7-12 7 4-13-10-8 13-1z"/>',
+  '<path d="M50 32l18 20-18 20-18-20z"/><path d="M50 42l9 10-9 10-9-10z" fill="#fff"/>',
+  '<circle cx="50" cy="40" r="7"/><circle cx="38" cy="54" r="7"/><circle cx="62" cy="54" r="7"/><circle cx="50" cy="66" r="7"/>'
+];
+const n = Math.ceil(innerWidth / 70) + 2;
+document.getElementById("picado").innerHTML = Array.from({ length: n }, (_, i) => `
+  <svg viewBox="0 0 100 118"><defs><mask id="m${i}"><rect width="100" height="118" fill="#fff"/><g fill="#000">${cortes[i % 4]}
+    <rect x="12" y="88" width="8" height="8"/><rect x="28" y="88" width="8" height="8"/><rect x="44" y="88" width="8" height="8"/><rect x="60" y="88" width="8" height="8"/><rect x="76" y="88" width="8" height="8"/></g></mask></defs>
+    <path d="M0 0h100v104l-10 14-10-14-10 14-10-14-10 14-10-14-10 14-10-14-10 14-10-14z" fill="${colores[i % 5]}" mask="url(#m${i})"/></svg>`).join("");
+
+// descargas: se activan cuando el archivo ya está publicado en el último release
 fetch("https://api.github.com/repos/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest")
   .then(r => r.ok ? r.json() : { assets: [] })
   .then(rel => {
     const hay = new Set((rel.assets || []).map(a => a.name));
-    document.querySelectorAll("[data-archivo]").forEach(b => {
-      if (!hay.has(b.dataset.archivo)) { b.setAttribute("aria-disabled", "true"); b.innerHTML = "Muy pronto"; }
-    });
-  })
-  .catch(() => {});
+    document.querySelectorAll("[data-archivo]").forEach(b => { if (!hay.has(b.dataset.archivo)) b.classList.add("pronto"); });
+  }).catch(() => {});
+fetch("jugar/Build/Web.loader.js", { method: "HEAD" }).then(r => { if (!r.ok) document.getElementById("o-web").classList.add("pronto"); }).catch(() => document.getElementById("o-web").classList.add("pronto"));
 </script>
 </body>
 </html>
