@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ofrenda de los Cuatro Rumbos</title>
+<meta name="description" content="Altar de muertos en Unity sobre la explanada de la Facultad de Informática de la UAQ. Primer lugar, Altar Alternativo, XIV Concurso de Altares FIF 2026.">
+<meta property="og:title" content="Ofrenda de los Cuatro Rumbos">
+<meta property="og:description" content="Recorre en el navegador una ofrenda de siete niveles sobre la explanada de la Facultad de Informática, UAQ.">
+<meta property="og:image" content="https://carlosquintana1.github.io/ofrenda-cuatro-rumbos/media/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cempasuchil:#F08A1D; --rosa:#E4007C; --morado:#5B2A86; --amarillo:#F6C431;
+  --noche:#140B20; --noche-2:#1E1230; --hueso:#F3E9D2; --tenue:#BFB3CF; --linea:rgba(243,233,210,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--noche);color:var(--hueso);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+img{display:block;max-width:100%}
+.ancho{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* papel picado */
+.picado{height:34px;background:
+  linear-gradient(135deg,transparent 50%,var(--noche) 50%) 0 100%/34px 14px repeat-x,
+  repeating-linear-gradient(90deg,var(--rosa) 0 68px,var(--cempasuchil) 68px 136px,var(--morado) 136px 204px,var(--amarillo) 204px 272px)}
+
+header.portada{position:relative;min-height:88vh;display:flex;align-items:flex-end;overflow:hidden}
+.portada .fondo{position:absolute;inset:0;background:url(media/galeria/noche.jpg) center/cover}
+.portada::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(20,11,32,.96) 0%,rgba(20,11,32,.75) 40%,rgba(20,11,32,.15) 75%),linear-gradient(0deg,var(--noche) 0%,transparent 35%)}
+.portada .ancho{position:relative;z-index:1;padding-bottom:72px;width:100%}
+.premio{display:inline-block;font-size:.8rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--amarillo);border:1px solid rgba(246,196,49,.4);border-radius:999px;padding:6px 14px;margin-bottom:22px}
+h1{font-family:Fraunces,Georgia,serif;font-weight:700;font-size:clamp(2.6rem,7vw,5.2rem);line-height:1.02;letter-spacing:-.01em}
+h1 span{color:var(--cempasuchil)}
+.bajada{max-width:540px;margin:22px 0 34px;font-size:1.12rem;color:var(--tenue)}
+.botones{display:flex;flex-wrap:wrap;gap:12px}
+.boton{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;font-size:.98rem;padding:14px 22px;border-radius:12px;border:1px solid var(--linea);background:rgba(255,255,255,.04);transition:transform .15s,background .15s}
+.boton:hover{transform:translateY(-2px);background:rgba(255,255,255,.09)}
+.boton.principal{background:var(--cempasuchil);border-color:var(--cempasuchil);color:#1B1B1B}
+.boton.principal:hover{background:#ff9a2e}
+.boton[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.boton small{font-weight:500;opacity:.75}
+
+section{padding:96px 0}
+.etiqueta{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--cempasuchil);margin-bottom:12px}
+h2{font-family:Fraunces,Georgia,serif;font-weight:600;font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.1;margin-bottom:18px}
+.intro{max-width:640px;color:var(--tenue);font-size:1.06rem}
+
+.gifs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:40px}
+.gifs figure{border-radius:14px;overflow:hidden;background:var(--noche-2)}
+.gifs figcaption{padding:12px 16px;font-size:.92rem;color:var(--tenue)}
+
+.rumbos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:40px}
+.rumbo{padding:26px 22px;border-radius:14px;background:var(--noche-2);border-top:4px solid var(--c)}
+.rumbo b{display:block;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--c);margin-bottom:6px}
+.rumbo h3{font-family:Fraunces,Georgia,serif;font-size:1.5rem;margin-bottom:8px}
+.rumbo p{color:var(--tenue);font-size:.95rem}
+
+.datos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.dato{padding:22px;border-radius:14px;border:1px solid var(--linea)}
+.dato strong{display:block;font-family:Fraunces,Georgia,serif;font-size:2.2rem;color:var(--amarillo);line-height:1}
+.dato span{font-size:.92rem;color:var(--tenue)}
+
+.galeria{columns:3 300px;column-gap:14px;margin-top:40px}
+.galeria img{width:100%;border-radius:12px;margin-bottom:14px;break-inside:avoid}
+
+.pasos{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;margin-top:40px}
+.paso{padding:26px;border-radius:14px;background:var(--noche-2)}
+.paso h3{font-size:1.06rem;margin-bottom:8px;color:var(--hueso)}
+.paso p{color:var(--tenue);font-size:.96rem}
+
+table{width:100%;border-collapse:collapse;margin-top:34px;font-size:.96rem}
+th,td{text-align:left;padding:13px 14px;border-bottom:1px solid var(--linea)}
+th{color:var(--cempasuchil);font-weight:600;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase}
+td:first-child{color:var(--hueso);font-weight:500}
+td{color:var(--tenue)}
+kbd{font-family:inherit;font-size:.85rem;padding:2px 8px;border-radius:6px;border:1px solid var(--linea);background:rgba(255,255,255,.05);color:var(--hueso)}
+
+.descargas{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.descarga{padding:28px;border-radius:14px;background:var(--noche-2);display:flex;flex-direction:column;gap:10px}
+.descarga h3{font-family:Fraunces,Georgia,serif;font-size:1.4rem}
+.descarga p{color:var(--tenue);font-size:.94rem;flex:1}
+.descarga .boton{align-self:flex-start}
+
+footer{padding:56px 0 72px;color:var(--tenue);font-size:.92rem}
+footer .ancho{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer a{color:var(--hueso)}
+
+@media (max-width:860px){
+  .rumbos,.datos{grid-template-columns:repeat(2,1fr)}
+  .descargas{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  .ancho{padding:0 16px}
+  section{padding:68px 0}
+  .gifs,.pasos{grid-template-columns:1fr}
+  .rumbos,.datos{grid-template-columns:1fr}
+  header.portada{min-height:92vh}
+  .portada::after{background:linear-gradient(0deg,rgba(20,11,32,.98) 30%,rgba(20,11,32,.55) 70%,rgba(20,11,32,.3) 100%)}
+  table{font-size:.88rem}
+  th,td{padding:10px 8px}
+}
+</style>
+</head>
+<body>
+
+<div class="picado" aria-hidden="true"></div>
+
+<header class="portada">
+  <div class="fondo" role="img" aria-label="La ofrenda de noche en la explanada de la Facultad"></div>
+  <div class="ancho">
+    <span class="premio">1er lugar, Altar Alternativo, XIV Concurso de Altares FIF 2026</span>
+    <h1>Ofrenda de los<br><span>Cuatro Rumbos</span></h1>
+    <p class="bajada">Una ofrenda de siete niveles en el centro de la explanada de la Facultad de Informática de la UAQ, recreada en Unity. No se mira: se recorre, se arma y se le deja un nombre.</p>
+    <div class="botones">
+      <a class="boton principal" id="b-jugar" href="jugar/">Jugar en el navegador</a>
+      <a class="boton" href="#descargas">Descargar para Windows o Mac</a>
+      <a class="boton" href="ar/">Verla en realidad aumentada</a>
+    </div>
+  </div>
+</header>
+
+<section id="recorrido">
+  <div class="ancho">
+    <p class="etiqueta">El recorrido</p>
+    <h2>Una plaza que se llena de ánimas</h2>
+    <p class="intro">Llegas por un camino de aserrín bajo papel picado, cruzas la explanada de la Facultad y llegas al medallón central, donde está la ofrenda. Con cada ritual el cielo se oscurece, hasta que cae la noche y llegan las ánimas.</p>
+    <div class="gifs">
+      <figure><img src="media/llegada.gif" alt="Llegada por el camino de aserrín" loading="lazy"><figcaption>Bienvenidas, ánimas: el camino de aserrín y veladoras</figcaption></figure>
+      <figure><img src="media/facultad.gif" alt="La explanada de la Facultad" loading="lazy"><figcaption>La explanada de la Facultad, recreada a escala</figcaption></figure>
+      <figure><img src="media/ofrenda.gif" alt="La ofrenda de siete niveles" loading="lazy"><figcaption>La ofrenda de siete niveles en el medallón central</figcaption></figure>
+      <figure><img src="media/danzantes.gif" alt="Danzantes" loading="lazy"><figcaption>Danzantes alrededor del huéhuetl y el copal</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="ofrenda" style="background:var(--noche-2)">
+  <div class="ancho">
+    <p class="etiqueta">La ofrenda</p>
+    <h2>Cuatro caras, cuatro rituales</h2>
+    <p class="intro">Cada cara de la pirámide mira a un rumbo y guarda un elemento. Al pie de cada una hay un pedestal que activa su ritual. Con los cuatro, la ofrenda queda completa.</p>
+    <div class="rumbos">
+      <div class="rumbo" style="--c:var(--cempasuchil);background:var(--noche)"><b>Norte</b><h3>Fuego</h3><p>Se encienden las veladoras de los siete niveles y el copal.</p></div>
+      <div class="rumbo" style="--c:#3FB8C9;background:var(--noche)"><b>Oriente</b><h3>Agua</h3><p>Se sirven los vasos para que las ánimas calmen su sed.</p></div>
+      <div class="rumbo" style="--c:var(--amarillo);background:var(--noche)"><b>Poniente</b><h3>Tierra</h3><p>Aparecen el pan de muerto, la fruta, el mole y los tamales.</p></div>
+      <div class="rumbo" style="--c:var(--rosa);background:var(--noche)"><b>Sur</b><h3>Viento</h3><p>El papel picado se despliega sobre toda la explanada.</p></div>
+    </div>
+    <div class="datos">
+      <div class="dato"><strong>7</strong><span>niveles, con mantel de color por nivel</span></div>
+      <div class="dato"><strong>26</strong><span>retratos, con Juan Gabriel en lo más alto</span></div>
+      <div class="dato"><strong>4</strong><span>rituales que oscurecen el cielo paso a paso</span></div>
+      <div class="dato"><strong>FIF</strong><span>cortado en binario en cada papel picado</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="galeria">
+  <div class="ancho">
+    <p class="etiqueta">Galería</p>
+    <h2>De la tarde a la noche</h2>
+    <div class="galeria">
+      <img src="media/galeria/atardecer.jpg" alt="La ofrenda al atardecer" loading="lazy">
+      <img src="media/galeria/juan-gabriel.jpg" alt="Juan Gabriel en lo más alto" loading="lazy">
+      <img src="media/galeria/rituales.jpg" alt="Veladoras encendidas" loading="lazy">
+      <img src="media/galeria/explanada.jpg" alt="Vista aérea de la explanada" loading="lazy">
+      <img src="media/galeria/catrines.jpg" alt="La Catrina y El Catrín" loading="lazy">
+      <img src="media/galeria/mariachi.jpg" alt="Mariachi de catrines" loading="lazy">
+      <img src="media/galeria/xoloitzcuintle.jpg" alt="Xoloitzcuintle" loading="lazy">
+      <img src="media/galeria/tapete.jpg" alt="Tapete de aserrín" loading="lazy">
+      <img src="media/galeria/campo-cempasuchil.jpg" alt="Campo de cempasúchil en forma de calavera" loading="lazy">
+      <img src="media/galeria/danzantes.jpg" alt="Danzantes" loading="lazy">
+      <img src="media/galeria/catrin-troyano.jpg" alt="Catrín troyano" loading="lazy">
+      <img src="media/galeria/noche.jpg" alt="La ofrenda de noche" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section id="como" style="background:var(--noche-2)">
+  <div class="ancho">
+    <p class="etiqueta">Cómo se hizo</p>
+    <h2>La Facultad, medida y generada por código</h2>
+    <div class="pasos">
+      <div class="paso" style="background:var(--noche)"><h3>Fotos y Google Maps</h3><p>Tomé fotos de la explanada, los edificios, las gradas y las jardineras, y saqué las medidas de la vista aérea de Google Maps con su barra de escala. La primera versión salió 1.6 veces más grande; la corregí empalmando la vista desde arriba de Unity sobre la foto satelital.</p></div>
+      <div class="paso" style="background:var(--noche)"><h3>Una escena hecha con C#</h3><p>Edificios, pirámide, comida, flores, papel picado y personajes son geometría que generan scripts de C#. Cualquier medida se corrige y la escena se vuelve a generar en segundos.</p></div>
+      <div class="paso" style="background:var(--noche)"><h3>Cada elemento con su fuente</h3><p>Al señalar cualquier elemento aparece su significado en la tradición y de dónde sale: INPI, Profeco, UNESCO y otras. Lo que es interpretación popular está marcado como tal.</p></div>
+      <div class="paso" style="background:var(--noche)"><h3>Artesanía como estilo</h3><p>Colores planos y una paleta cerrada de seis colores. Las figuras sencillas se leen como cartonería, que también es tradición, y la decoración deja que manden la comida, las velas y los retratos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="controles">
+  <div class="ancho">
+    <p class="etiqueta">Controles</p>
+    <h2>Teclado, ratón o mando</h2>
+    <table>
+      <thead><tr><th>Acción</th><th>Teclado y ratón</th><th>Mando</th></tr></thead>
+      <tbody>
+        <tr><td>Caminar</td><td><kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd></td><td>Stick izquierdo</td></tr>
+        <tr><td>Correr</td><td><kbd>Shift</kbd></td><td>LT o clic del stick</td></tr>
+        <tr><td>Mirar</td><td>Ratón</td><td>Stick derecho</td></tr>
+        <tr><td>Interactuar</td><td><kbd>E</kbd> o clic</td><td>A</td></tr>
+        <tr><td>Atardecer, noche y día</td><td><kbd>N</kbd></td><td>Y</td></tr>
+        <tr><td>Recorrido guiado</td><td></td><td>X, y B para salir</td></tr>
+        <tr><td>Reiniciar</td><td><kbd>R</kbd></td><td>Start</td></tr>
+        <tr><td>Soltar el cursor</td><td><kbd>Esc</kbd></td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="descargas" style="background:var(--noche-2)">
+  <div class="ancho">
+    <p class="etiqueta">Descargas</p>
+    <h2>Juégala donde quieras</h2>
+    <div class="descargas">
+      <div class="descarga" style="background:var(--noche)"><h3>Windows</h3><p>Descomprime el zip y abre <b>Ofrenda de los Cuatro Rumbos.exe</b>. Si aparece "Windows protegió su PC", elige Más información y Ejecutar de todas formas.</p><a class="boton principal" data-archivo="OfrendaCuatroRumbos-Windows.zip" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Windows.zip">Descargar <small>.zip</small></a></div>
+      <div class="descarga" style="background:var(--noche)"><h3>Mac</h3><p>Descomprime el zip y la primera vez abre la app con clic derecho y Abrir, porque no está firmada por Apple.</p><a class="boton principal" data-archivo="OfrendaCuatroRumbos-Mac.zip" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Mac.zip">Descargar <small>.zip</small></a></div>
+      <div class="descarga" style="background:var(--noche)"><h3>Proyecto de Unity</h3><p>El código completo, abierto bajo licencia MIT. Se abre con Unity 6000.5.6f1 y trae el menú para generar cada versión.</p><a class="boton" href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos">Ver en GitHub</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="ancho">
+    <span>Carlos Quintana, con el equipo Puro BoxCollider. Facultad de Informática, UAQ, 2026.</span>
+    <span><a href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/blob/main/FUENTES.md">Fuentes y créditos</a></span>
+  </div>
+</footer>
+
+<div class="picado" aria-hidden="true"></div>
+
+<script>
+// Las descargas se activan solas cuando el archivo ya está publicado en el último release.
+fetch("https://api.github.com/repos/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest")
+  .then(r => r.ok ? r.json() : { assets: [] })
+  .then(rel => {
+    const hay = new Set((rel.assets || []).map(a => a.name));
+    document.querySelectorAll("[data-archivo]").forEach(b => {
+      if (!hay.has(b.dataset.archivo)) { b.setAttribute("aria-disabled", "true"); b.innerHTML = "Muy pronto"; }
+    });
+  })
+  .catch(() => {});
+</script>
+</body>
+</html>
