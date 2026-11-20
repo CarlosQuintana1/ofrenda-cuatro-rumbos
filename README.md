@@ -31,6 +31,12 @@ No es una ofrenda para ver en una pantalla: se recorre. Quien la visita la arma 
   </tr>
 </table>
 
+<p align="center">
+  <b>Video del recorrido guiado (1:31):</b>
+  <a href="https://carlosquintana1.github.io/ofrenda-cuatro-rumbos/#video">verlo en la página</a> o
+  <a href="https://github.com/CarlosQuintana1/ofrenda-cuatro-rumbos/releases/latest/download/OfrendaCuatroRumbos-Video.mp4">descargarlo en 1080p</a>
+</p>
+
 ## Contenido
 
 - [Cómo jugarla](#cómo-jugarla)
